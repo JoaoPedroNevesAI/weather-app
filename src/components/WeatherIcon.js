@@ -1,19 +1,23 @@
 import React from 'react';
-import CloudSvg from '../../assets/icons/cloud.svg';
-import CloudlyDaySvg from '../../assets/icons/cloudly_day.svg';
-import CloudlyNightSvg from '../../assets/icons/cloudly_night.svg';
-import RainSvg from '../../assets/icons/rain.svg';
-import SunSvg from '../../assets/icons/sun.svg';
+import { Image } from 'react-native';
 
 export default function WeatherIcon({ description, currently = 'dia', size = 40 }) {
   const desc = description.toLowerCase();
-  let IconComponent = SunSvg;
 
-  if (desc.includes('chuva')) IconComponent = RainSvg;
-  else if (desc.includes('nublado')) {
-    IconComponent = currently === 'noite' ? CloudlyNightSvg : CloudlyDaySvg;
-  } else if (desc.includes('sol')) IconComponent = SunSvg;
-  else IconComponent = CloudSvg;
+  let icon = require('../../assets/icons/sun.png');
 
-  return <IconComponent width={size} height={size} />;
+  if (desc.includes('chuva')) {
+    icon = require('../../assets/icons/rain.png');
+  } else if (desc.includes('nublado')) {
+    icon =
+      currently === 'noite'
+        ? require('../../assets/icons/cloudly_night.png')
+        : require('../../assets/icons/cloudly_day.png');
+  } else if (desc.includes('sol')) {
+    icon = require('../../assets/icons/sun.png');
+  } else {
+    icon = require('../../assets/icons/cloud.png');
+  }
+
+  return <Image source={icon} style={{ width: size, height: size }} />;
 }
